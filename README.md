@@ -11,5 +11,6 @@ The story will be told from the perspective of a person with a disability.
 ## Technologies
 Project is created with:
 * python version: 3.10
+* ReactJS version: 19.1.0
 ...,but project also use:
 * MySQL
