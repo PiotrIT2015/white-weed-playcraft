@@ -1,0 +1,17 @@
+/* ... (takie same style jak poprzednio) ... */
+.controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.controls p {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.controls button {
+  margin: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  min-width: 70px;
+}

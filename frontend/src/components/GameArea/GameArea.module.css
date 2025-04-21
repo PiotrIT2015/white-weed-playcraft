@@ -1,0 +1,58 @@
+/* ... (takie same style jak poprzednio dla .gameArea, .staticElement, .building, .road, .kerb, .ramp, .obstacle) ... */
+.gameArea {
+  width: 500px; /* Defined via prop now */
+  height: 400px; /* Defined via prop now */
+  border: 2px solid black;
+  position: relative;
+  background-color: #e0f7fa;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.staticElement {
+    position: absolute;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #37474f;
+    overflow: hidden;
+    text-align: center;
+}
+
+.building {
+  background-color: #b0bec5;
+  border: 1px solid #546e7a;
+  z-index: 1;
+}
+
+.road {
+  background-color: #757575;
+  width: 100%;
+  z-index: 0;
+}
+
+.kerb {
+  background-color: #bdbdbd;
+  border-top: 2px solid #616161;
+  line-height: 18px;
+  font-size: 10px;
+  z-index: 5;
+}
+
+.ramp {
+  background-color: #a5d6a7;
+  border: 1px dashed #4caf50;
+  line-height: 18px;
+  font-size: 10px;
+  z-index: 5;
+}
+
+.obstacle {
+  background-color: #ff7043;
+  border: 1px solid #d84315;
+   line-height: 18px;
+   font-size: 10px;
+  z-index: 5;
+}

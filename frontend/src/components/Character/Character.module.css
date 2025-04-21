@@ -1,0 +1,15 @@
+/* ... (takie same style jak poprzednio) ... */
+.character {
+  width: 30px;
+  height: 30px;
+  color: blue;
+  font-size: 24px;
+  text-align: center;
+  line-height: 30px;
+  position: absolute;
+  border-radius: 50%;
+  transition: left 0.1s linear, top 0.1s linear;
+  z-index: 10;
+  user-select: none;
+  box-sizing: border-box;
+}
