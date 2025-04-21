@@ -11,7 +11,7 @@ The story will be told from the perspective of a person with a disability.
 
 ## To run a project
 ```
-nvm start
+npm start
 ```
 * https://localhost:3000 [frontend]
 * https://localhost:5000/run-engine [backend]
