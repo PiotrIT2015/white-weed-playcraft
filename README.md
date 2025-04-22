@@ -1,4 +1,4 @@
-## WWP(game)
+## Empathy(game)
 
 ## Table of contents
 * [General info](#general-info)

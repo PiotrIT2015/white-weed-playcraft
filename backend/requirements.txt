@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic[email] # email jest opcjonalny, ale pydantic go często zawiera
+requests # do komunikacji z zewnętrznym API (Grok-1)
+python-dotenv # do zarządzania zmiennymi środowiskowymi (np. klucz API, dane DB)
+mysql-connector-python # lub inny driver mysql dla sqlalchemy, np. pymysql
