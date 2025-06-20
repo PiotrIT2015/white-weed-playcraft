@@ -11,10 +11,8 @@ The story will be told from the perspective of a person with a disability.
 
 ## To run a project
 ```
-npm start
+python run_game.py
 ```
-* https://localhost:3000 [frontend]
-* https://localhost:5000/run-engine [backend]
 	
 ## Technologies
 Project is created with:
