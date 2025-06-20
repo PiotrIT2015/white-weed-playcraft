@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 import json # Do ewentualnego zapisu/odczytu JSON dla debugowania
 
 # Importujemy instancję menedżera stanu gry
-from game_state_manager import game_manager
+from engine.game_state_manager import game_manager
 # Importujemy schematy Pydantic do walidacji danych wejściowych
 from api.schemas import PlayerAction, DisabilityType, DisabilitySeverity, GameStateResponse
 # Importujemy funkcje CRUD i obiekty bazy danych
