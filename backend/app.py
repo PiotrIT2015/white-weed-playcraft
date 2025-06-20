@@ -8,9 +8,9 @@ from game_state_manager import game_manager
 # Importujemy schematy Pydantic do walidacji danych wejściowych
 from api.schemas import PlayerAction, DisabilityType, DisabilitySeverity, GameStateResponse
 # Importujemy funkcje CRUD i obiekty bazy danych
-from database import SessionLocal, engine, Base
-import crud
-import models # Musi być zaimportowany, aby SQLAlchemy "zobaczyło" modele i stworzyło tabele
+from database.database import SessionLocal, engine, Base
+import database.crud
+import database.models # Musi być zaimportowany, aby SQLAlchemy "zobaczyło" modele i stworzyło tabele
 
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 CORS(app)
