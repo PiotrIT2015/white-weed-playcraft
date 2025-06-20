@@ -2,6 +2,7 @@ from characters.player import Player
 from api.schemas import GameState, NPCState, Position, PlayerAction, DisabilityType, DisabilitySeverity
 from typing import List, Optional
 import json
+from grok_agent import get_npc_dialogue # <--- Kluczowy import!
 
 # --- Symulacja NPC ---
 # W rzeczywistości to pochodziłoby z konfiguracji sceny/poziomu
@@ -28,35 +29,118 @@ class GameStateManager:
         self.npcs = [npc.copy(deep=True) for npc in INITIAL_NPCS] # Skopiuj początkowych NPC
         print(f"New game created for {name} with {dseverity} {dtype}")
 
-    def process_action(self, action: PlayerAction):
+    def process_action(self, action: PlayerAction) -> tuple[bool, str]:
+        """Przetwarza akcję gracza i zwraca (success, message)."""
         if not self.player:
-            print("Error: Player not initialized.")
-            return
+            return False, "Gra nie została zainicjowana."
 
-        print(f"Processing action: {action.action_type}")
-        if action.action_type == "move":
-            details = action.details or {}
+        success = False
+        message = "Nieznana akcja lub błąd."
+        action_cost = 0.5 # Domyślny koszt akcji dla staminy
+
+        action_type = action.action_type.lower()
+        details = action.details or {}
+        target_id = action.target_id
+
+        # --- Obsługa Akcji ---
+        if action_type == "move":
             dx = details.get("dx", 0.0)
             dy = details.get("dy", 0.0)
-            self.player.move(dx, dy)
-        elif action.action_type == "talk":
-            npc_id = action.target_id
-            npc = next((n for n in self.npcs if n.id == npc_id), None)
-            if npc:
-                print(f"Player talks to {npc.name} (ID: {npc_id})")
-                # Tutaj nastąpiłaby integracja z AI (Grok-1)
-                # context = f"Scena: {self.current_scene}. Gracz ({self.player.name}, {self.player.disability_severity} {self.player.disability_type}) podchodzi do {npc.name}. Co mówi {npc.name}?"
-                # response_text = ai.grok_agent.get_npc_response(context, npc.id) # Wywołanie AI
-                # npc.current_dialogue = response_text # Aktualizacja stanu NPC
-                npc.current_dialogue = f"{npc.name}: Cześć {self.player.name}! Miło cię widzieć." # Placeholder
+            if dx != 0 or dy != 0:
+                self.player.move(dx, dy, self.world_bounds)
+                success = True
+                message = "Gracz się poruszył."
             else:
-                print(f"Error: NPC with id {npc_id} not found.")
-        # Dodaj obsługę innych akcji (interact, use_item, etc.)
+                message = "Brak kierunku ruchu."
+                success = False # Nie wykonano akcji
 
-        # Prosta symulacja ruchu NPC (placeholder)
-        for npc in self.npcs:
-             if npc.current_action == "walking":
-                 npc.position.x += 0.1 # Np. prosty ruch w prawo
+        elif action_type == "wait":
+            duration = details.get("duration", 1.0) # Domyślnie czekaj 1 jednostkę czasu
+            self.player.rest(duration)
+            action_cost = 0 # Odpoczynek nie kosztuje staminy
+            success = True
+            message = f"Gracz odpoczął przez {duration} jednostek czasu."
+
+        elif action_type == "talk":
+            if not target_id: return False, "Nie wybrano celu rozmowy."
+            npc = self._find_npc_by_id(target_id)
+            if npc:
+                # Sprawdź dystans (prosty przykład)
+                player_pos = self.player.get_state().position
+                dist_sq = (player_pos.x - npc.position.x)**2 + (player_pos.y - npc.position.y)**2
+                talk_range_sq = 50**2 # Zasięg rozmowy (do kwadratu)
+                if dist_sq > talk_range_sq:
+                    return False, f"Jesteś za daleko od {npc.name}, aby rozmawiać."
+
+                print(f"Initiating talk with {npc.name} (ID: {target_id})")
+                npc.current_action = "talking" # NPC się zatrzymuje, by rozmawiać
+
+                # Pobierz aktualny stan gry dla kontekstu AI
+                current_game_state = self.get_current_state()
+                if not current_game_state: return False, "Błąd pobierania stanu gry dla AI."
+
+                # --- TUTAJ NASTĘPUJE INTEGRACJA Z AGENTEM GROK-1 ---
+                # player_message w tym przypadku jest None, bo to gracz inicjuje rozmowę
+                # W przyszłości, jeśli gracz będzie mógł wpisywać tekst, przekazesz go tutaj
+                ai_response = get_npc_dialogue(current_game_state, npc, player_message=None)
+                npc.current_dialogue = ai_response # Aktualizuj dialog NPC
+
+                action_cost = 0.2 # Rozmowa lekko męczy
+                success = True
+                message = f"Rozpoczęto rozmowę z {npc.name}. Odpowiedź: {npc.current_dialogue}"
+            else:
+                message = f"Nie znaleziono postaci o ID '{target_id}' w tej scenie."
+
+        elif action_type == "interact":
+            if not target_id: return False, "Nie wybrano celu interakcji."
+            target_object = self._find_object_by_id(target_id)
+            if target_object:
+                # Sprawdź dystans
+                player_pos = self.player.get_state().position
+                obj_pos = Position(**target_object.get("position", {"x":0, "y":0}))
+                dist_sq = (player_pos.x - obj_pos.x)**2 + (player_pos.y - obj_pos.y)**2
+                interact_range_sq = 30**2
+                if dist_sq > interact_range_sq:
+                    return False, f"Jesteś za daleko od obiektu '{target_object.get('id', 'N/A')}'."
+
+                # Logika interakcji (bardzo prosty przykład)
+                obj_id = target_object.get("id")
+                obj_state = target_object.get("state")
+                target_scene = target_object.get("target_scene")
+
+                interaction_modifier = self.player.disability_handler.get_interaction_modifier(obj_id or "generic")
+                action_cost = 1.0 * interaction_modifier # Koszt zależy od trudności interakcji
+
+                if "door" in obj_id and target_scene:
+                    print(f"Player interacts with door {obj_id} leading to {target_scene}")
+                    self._load_scene(target_scene)
+                    success = True
+                    message = f"Przechodzisz do sceny: {target_scene}."
+                elif obj_id == "bed":
+                    self.player.rest(duration=5.0) # Dłuższy odpoczynek
+                    target_object["state"] = "used"
+                    action_cost = 0 # Sam odpoczynek nie męczy
+                    success = True
+                    message = "Odpocząłeś w łóżku, regenerując siły."
+                else:
+                    message = f"Interakcja z '{obj_id}' ({obj_state}) - brak zdefiniowanej akcji."
+                    action_cost = 0.1 # Mały koszt za próbę interakcji
+
+            else:
+                message = f"Nie znaleziono obiektu interaktywnego o ID '{target_id}'."
+
+        else:
+            message = f"Nieznany typ akcji: '{action_type}'"
+
+        # Zastosuj koszt akcji, jeśli była udana
+        if success:
+            self.player.apply_action_effects(action_cost)
+
+        # Po każdej akcji gracza, zaktualizuj stan świata (czas, NPC)
+        self._update_game_time()
+        self._simulate_npcs(delta_time=0.1) # Załóżmy stały mały krok czasowy dla symulacji NPC
+
+        return success, message
 
     def get_current_state(self) -> Optional[GameState]:
         if not self.player:

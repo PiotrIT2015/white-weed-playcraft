@@ -1,10 +1,11 @@
+# ai.py
 import requests
 import os
 import json
 import random
 from dotenv import load_dotenv
 from typing import Optional
-from api.schemas import GameState, NPCState, PlayerState # Importuj schematy dla kontekstu
+from api.schemas import GameState, NPCState # Importuj schematy dla kontekstu
 
 load_dotenv()
 
@@ -55,10 +56,10 @@ Percepcja gracza może być ograniczona: {player.perception_modifier}.
 
     # Wiadomość od gracza (jeśli to kontynuacja rozmowy)
     if player_message:
-         prompt_context += f"Gracz ({player.name}) mówi do Ciebie: \"{player_message}\"\n"
+        prompt_context += f"Gracz ({player.name}) mówi do Ciebie: \"{player_message}\"\n"
     else:
-         # Jeśli to początek interakcji
-         prompt_context += f"Gracz ({player.name}) właśnie podszedł i zainicjował rozmowę.\n"
+        # Jeśli to początek interakcji
+        prompt_context += f"Gracz ({player.name}) właśnie podszedł i zainicjował rozmowę.\n"
 
     # Instrukcje dla AI
     prompt_instructions = f"""Twoim zadaniem jest wygenerować następną linię dialogową dla postaci {npc.name}.
@@ -100,8 +101,8 @@ Odpowiedź {npc.name}:"""
                 ai_reply = ai_reply.replace(f"{npc.name}:", "").strip()
                 return f"{npc.name}: {ai_reply}" # Dodajemy nazwę NPC dla jasności w logach/UI
             else:
-                 print(f"WARN: Grok API returned empty text for {npc.name}.")
-                 return f"{npc.name}: {random.choice(PLACEHOLDER_RESPONSES)}"
+                print(f"WARN: Grok API returned empty text for {npc.name}.")
+                return f"{npc.name}: {random.choice(PLACEHOLDER_RESPONSES)}"
         else:
             print(f"Error: Unexpected response format from Grok API for {npc.name}: {result}")
             return f"{npc.name}: {random.choice(PLACEHOLDER_RESPONSES)} (API format issue)"
@@ -111,7 +112,6 @@ Odpowiedź {npc.name}:"""
         return f"{npc.name}: Chwileczkę, zamyśliłem się... (Timeout)"
     except requests.exceptions.RequestException as e:
         print(f"Error communicating with Grok API for {npc.name}: {e}")
-        # Można sprawdzić status code np. e.response.status_code
         error_msg = f"(API Error: {e.response.status_code})" if hasattr(e, 'response') and e.response else "(API Network Error)"
         return f"{npc.name}: Przepraszam, coś mnie rozproszyło... {error_msg}"
     except Exception as e:
