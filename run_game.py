@@ -28,7 +28,7 @@ def run_game():
     build_react_app()
     
     print("\n--- Uruchamianie serwera backendu ---")
-    backend_script = os.path.join('backend', 'app.py')
+    backend_script = os.path.join('backend', 'main.py')
     # Użycie Popen do uruchomienia serwera w tle
     server_process = subprocess.Popen([sys.executable, backend_script])
     
