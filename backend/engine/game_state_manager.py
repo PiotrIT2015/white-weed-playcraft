@@ -5,7 +5,7 @@ from typing import List, Optional, Dict, Any
 
 from characters import Player
 from api.schemas import GameState, NPCState, Position, PlayerAction, DisabilityType, DisabilitySeverity
-from grok_agent import get_npc_dialogue # Import funkcji AI
+from ai.grok_agent import get_npc_dialogue # Import funkcji AI
 
 # --- Konfiguracja Początkowa Scen ---
 # W realnej grze ładowane z plików konfiguracyjnych/bazy danych

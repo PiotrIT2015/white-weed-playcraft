@@ -2,7 +2,7 @@ from characters.player import Player
 from api.schemas import GameState, NPCState, Position, PlayerAction, DisabilityType, DisabilitySeverity
 from typing import List, Optional
 import json
-from grok_agent import get_npc_dialogue # <--- Kluczowy import!
+from ai.grok_agent import get_npc_dialogue # <--- Kluczowy import!
 
 # --- Symulacja NPC ---
 # W rzeczywistości to pochodziłoby z konfiguracji sceny/poziomu
