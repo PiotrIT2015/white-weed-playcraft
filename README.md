@@ -1,4 +1,4 @@
-## Empathy(game)
+## Ragnarök [Biała dzicz: zemsta bogów]
 
 ## Table of contents
 * [General info](#general-info)
