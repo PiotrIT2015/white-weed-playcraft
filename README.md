@@ -11,7 +11,7 @@ The story will be told from the perspective of a person with a disability.
 
 ## To run a project
 ```
-python run_game.py
+python wwp.py
 ```
 	
 ## Technologies
