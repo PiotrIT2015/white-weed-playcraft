@@ -10,8 +10,8 @@ import json
 from engine.game_state_manager import game_manager
 from api.schemas import PlayerAction, DisabilityType, DisabilitySeverity, GameState
 from database.database import SessionLocal, engine, Base
-import database.crud
-import database.models
+from database import crud
+from database import models
 
 ### ZMIANA 1: Poprawiamy konfigurację serwowania plików statycznych ###
 # Wskazujemy Flaskowi, gdzie znajdują się pliki JS/CSS, a nie cała aplikacja.
@@ -49,13 +49,13 @@ def initialize_game_state():
                 print(f"Loaded game state from save ID: {last_save[0].id}, Character: {last_save[0].character_name}")
             else:
                 print("Failed to load game state from database. Starting new game.")
-                game_manager.create_new_game(name="Gracz", disability_type=DisabilityType.WHEELCHAIR, disability_severity=DisabilitySeverity.MODERATE)
+                game_manager.create_new_game(name="Gracz", dtype=DisabilityType.NEUROLOGICAL, dseverity=DisabilitySeverity.MODERATE)
         except Exception as e:
             print(f"Error loading saved game from DB: {e}. Starting new game.")
-            game_manager.create_new_game(name="Gracz", disability_type=DisabilityType.WHEELCHAIR, disability_severity=DisabilitySeverity.MODERATE)
+            game_manager.create_new_game(name="Gracz", dtype=DisabilityType.NEUROLOGICAL, dseverity=DisabilitySeverity.MODERATE)
     else:
         print("No existing game saves found. Starting a new game.")
-        game_manager.create_new_game(name="Gracz", disability_type=DisabilityType.WHEELCHAIR, disability_severity=DisabilitySeverity.MODERATE)
+        game_manager.create_new_game(name="Gracz", dtype=DisabilityType.NEUROLOGICAL, dseverity=DisabilitySeverity.MODERATE)
     
     print("Game state initialization complete.")
 

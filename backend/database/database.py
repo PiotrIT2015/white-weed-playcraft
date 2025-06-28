@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 load_dotenv() # Ładuje zmienne z pliku .env
 
 # Odczytaj dane konfiguracyjne bazy danych ze zmiennych środowiskowych
-DB_USER = os.getenv("MYSQL_USER", "user")
-DB_PASSWORD = os.getenv("MYSQL_PASSWORD", "password")
+DB_USER = os.getenv("MYSQL_USER", "root")
+DB_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
 DB_HOST = os.getenv("MYSQL_HOST", "localhost")
 DB_PORT = os.getenv("MYSQL_PORT", "3306")
 DB_NAME = os.getenv("MYSQL_DATABASE", "empathy_game_db")

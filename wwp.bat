@@ -10,7 +10,6 @@ IF %ERRORLEVEL% NEQ 0 (
     EXIT /B 1
 )
 
-
 ECHO.
 ECHO --- Instalowanie zaleznosci frontendu (React) ---
 IF NOT EXIST "frontend\node_modules" (
@@ -29,7 +28,6 @@ IF NOT EXIST "frontend\node_modules" (
     ECHO Zaleznosci frontendu juz zainstalowane.
 )
 
-
 ECHO.
 ECHO --- Budowanie aplikacji React ---
 PUSHD frontend
@@ -43,7 +41,6 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 POPD
 
-
 ECHO.
 ECHO --- Uruchamianie serwera backendu ---
 REM Uruchamia serwer Pythona w tle. /D ustawia katalog roboczy dla procesu.
@@ -54,11 +51,9 @@ ECHO Serwer uruchomiony. Oczekiwanie na start...
 REM Czeka 3 sekundy, ukrywajac odliczanie ( > NUL )
 TIMEOUT /T 3 /NOBREAK > NUL
 
-
 SET "URL=http://localhost:5000"
 ECHO --- Otwieranie gry w przegladarce pod adresem: %URL% ---
 START %URL%
-
 
 ECHO.
 ECHO Gra jest uruchomiona. Aby zakonczyc, zamknij to okno konsoli.

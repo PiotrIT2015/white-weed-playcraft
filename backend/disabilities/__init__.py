@@ -6,6 +6,8 @@ from .vision import VisionDisability
 # from .hearing import HearingDisability
 # from .neurological import NeurologicalDisability
 # from .epilepsy import EpilepsyDisability
+from api.schemas import PlayerState
+from api.schemas import GameState
 
 from api.schemas import DisabilityType, DisabilitySeverity
 
