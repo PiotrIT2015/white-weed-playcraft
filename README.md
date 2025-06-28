@@ -10,9 +10,8 @@ A game with the goal of gaining professional experience through the main charact
 The story will be told from the perspective of a person with a disability.
 
 ## To run a project
-```
-python wwp.py
-```
+
+* double click on: wwp.bat
 	
 ## Technologies
 Project is created with:
