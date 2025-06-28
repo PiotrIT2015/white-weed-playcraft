@@ -11,6 +11,7 @@ The story will be told from the perspective of a person with a disability. Dedic
 
 ## To run a project
 
+* add python and ReactJS to PATH
 * double click on: wwp.bat
 	
 ## Technologies
