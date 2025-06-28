@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useGameState } from '..\contexts\GameStateContext';
-import { api } from '..\services\api';
-';
+import { useGameState } from '../contexts/GameStateContext';
+import { api } from '../services/api';
+
 
 function GameControls() {
     const { updateGameState, setIsLoading, setError } = useGameState();

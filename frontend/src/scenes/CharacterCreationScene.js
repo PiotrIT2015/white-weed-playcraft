@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useGameState } from '..\contexts\GameStateContext';
-import { api } from '..\services\api';
+import { useGameState } from '../contexts/GameStateContext';
+import { api } from '../services/api';
 
 // Dostępne opcje (powinny odpowiadać enumom w backendzie/schematach Pydantic)
 const disabilityTypes = ['vision', 'hearing', 'mobility', 'neurological', 'epilepsy'];

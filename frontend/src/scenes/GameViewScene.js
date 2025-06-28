@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback } from 'react';
-import { useGameState } from '..\contexts\GameStateContext';
-import { api } from '..\services\api';
-import PlayerCharacter from '..\components\PlayerCharacter';
-import NPCCharacter from '..\components\NPCCharacter';
-import DialogueBox from '..\components\DialogueBox';
-import DisabilityOverlay from '..\components\DisabilityOverlay';
-import GameControls from '..\components\GameControls'; // Komponent z przyciskami Save/Load
+import { useGameState } from '../contexts/GameStateContext';
+import { api } from '../services/api';
+import PlayerCharacter from '../compontents/PlayerCharacter';
+import NPCCharacter from '../compontents/NPCCharacter';
+import DialogueBox from '../compontents/DialogueBox';
+import DisabilityOverlay from '../compontents/DisabilityOverlay';
+import GameControls from '../compontents/GameControls'; // Komponent z przyciskami Save/Load
 
 function GameViewScene() {
     const { gameState, updateGameState, setIsLoading, setError } = useGameState();

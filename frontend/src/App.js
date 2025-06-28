@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import CharacterCreationScene from '.\scenes\CharacterCreationScene';
-import GameViewScene from '.\scenes\GameViewScene';
-import LoadingIndicator from '.\components\LoadingIndicator'; // Prosty komponent ładowania
-import ErrorDisplay from '.\components\ErrorDisplay'; // Prosty komponent błędu
-import { useGameState } from '.\contexts\GameStateContext';
+import CharacterCreationScene from './scenes/CharacterCreationScene';
+import GameViewScene from './scenes/GameViewScene';
+import LoadingIndicator from './compontents/LoadingIndicator'; // Prosty komponent ładowania
+import ErrorDisplay from './compontents/ErrorDisplay'; // Prosty komponent błędu
+import { useGameState } from './contexts/GameStateContext';
 
 function App() {
     const { gameState, isLoading, error } = useGameState();
