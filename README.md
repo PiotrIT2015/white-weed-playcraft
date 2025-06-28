@@ -7,7 +7,7 @@
 
 ## General info
 A game with the goal of gaining professional experience through the main character. 
-The story will be told from the perspective of a person with a disability.
+The story will be told from the perspective of a person with a disability. Dedicated for MS Windows.
 
 ## To run a project
 
