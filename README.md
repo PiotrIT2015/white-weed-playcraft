@@ -21,3 +21,5 @@ Project is created with:
 * ReactJS version: 19.1.0
 ...,but project also use:
 * MySQL
+
+![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/wwp1.jpg?raw=true)
