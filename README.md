@@ -11,7 +11,6 @@ The story will be told from the perspective of a person with a disability. Dedic
 
 ## To run a project
 
-* configure your database
 * pip install -r requirements.txt
 * add python and ReactJS to PATH
 * double click on: wwp.bat

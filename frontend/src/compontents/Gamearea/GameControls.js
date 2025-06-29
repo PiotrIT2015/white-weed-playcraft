@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { useGameState } from '../contexts/GameStateContext';
-import { api } from '../services/api';
+import { useGameState } from '../../contexts/GameStateContext';
+import { api } from '../../services/api';
+
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'; // npm install @mui/icons-material
 
 
 function GameControls() {
@@ -58,8 +62,15 @@ function GameControls() {
 
     return (
         <div className="game-controls" style={{ marginTop: '10px', padding: '10px', borderTop: '1px solid #ccc' }}>
-            <button onClick={handleSave}>Save Game</button>
-            <button onClick={fetchSaves} style={{ marginLeft: '10px' }}>Load Game</button>
+
+        <Box>
+
+            <Button variant="contained" startIcon={<ArrowUpwardIcon />}>Góra</Button>
+            {/* ... inne przyciski */}
+  
+
+            <Button onClick={handleSave}>Save Game</Button>
+            <Button onClick={fetchSaves} style={{ marginLeft: '10px' }}>Load Game</Button>
 
             {showLoadMenu && (
                 <div className="load-menu" style={{ marginTop: '10px', border: '1px solid #eee', padding: '10px' }}>
@@ -75,9 +86,12 @@ function GameControls() {
                     ) : (
                         <p>No saves found.</p>
                     )}
-                    <button onClick={() => setShowLoadMenu(false)}>Cancel</button>
+                    <Button onClick={() => setShowLoadMenu(false)}>Cancel</Button>
                 </div>
             )}
+
+            </Box>
+
         </div>
     );
 }

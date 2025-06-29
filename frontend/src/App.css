@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+/* Ustawienia globalne dla lepszego wyglądu */
+body {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  font-family: sans-serif;
+  margin: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Główny kontener aplikacji z layoutem CSS Grid */
+.game-container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "game-view sidebar"
+    "controls sidebar";
+  grid-template-columns: 3fr 1fr; /* 75% szerokości dla gry, 25% dla panelu bocznego */
+  grid-template-rows: auto 1fr auto; /* Automatyczna wysokość dla nagłówka i kontrolek, reszta dla widoku gry */
+  height: 100vh; /* Pełna wysokość okna przeglądarki */
+  gap: 1rem; /* Odstępy 16px między sekcjami */
+  padding: 1rem;
+  box-sizing: border-box; /* Padding wliczony w wymiary */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Przypisanie komponentów do zdefiniowanych obszarów */
+.header-area { grid-area: header; }
+.game-view-area { grid-area: game-view; }
+.sidebar-area { grid-area: sidebar; }
+.controls-area { grid-area: controls; }
+
+/* Podstawowe style dla każdej sekcji, aby były widoczne */
+.header-area, .game-view-area, .sidebar-area, .controls-area {
+  border: 1px solid #444;
+  padding: 1rem;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  display: flex; /* Ułatwia centrowanie i układanie zawartości */
+  flex-direction: column; /* Elementy wewnątrz będą jeden pod drugim */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.header-area {
+  justify-content: center; /* Wyśrodkowanie w pionie */
+  align-items: center; /* Wyśrodkowanie w poziomie */
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.message-log {
+  margin-top: 1rem; /* Odstęp od kontrolek */
+  padding-top: 1rem;
+  border-top: 1px solid #444;
 }
