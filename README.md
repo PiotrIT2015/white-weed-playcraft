@@ -22,4 +22,4 @@ Project is created with:
 ...,but project also use:
 * MySQL
 
-![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/wwp1.jpg?raw=true)
+![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot.jpg?raw=true)
