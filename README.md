@@ -17,9 +17,11 @@ accessible experience.
 
 ## Usage
 
-1. double click on `install-require-libraries.bat`
-2. add python and ReactJS to PATH
-3. double click on `wwp.bat`
+1. `winget install Python.Python.3.10`
+2. `winget install OpenJS.NodeJS.19.1.10`
+3. add python and ReactJS to PATH
+4. double click on `install-require-libraries.bat`
+5. double click on `wwp.bat`
 	
 ## Technologies
 Project is created with:
