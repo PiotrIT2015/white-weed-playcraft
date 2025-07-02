@@ -17,9 +17,9 @@ accessible experience.
 
 ## Usage
 
-* pip install -r ./backend/requirements.txt
-* add python and ReactJS to PATH
-* double click on: wwp.bat
+1. double click on `install-require-libraries.bat`
+2. add python and ReactJS to PATH
+3. double click on `wwp.bat`
 	
 ## Technologies
 Project is created with:
