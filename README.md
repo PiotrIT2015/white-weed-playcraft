@@ -3,13 +3,19 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
-* [Running](#running)
+* [Usage](#usage)
 
 ## General info
-A game with the goal of gaining professional experience through the main character. 
-The story will be told from the perspective of a person with a disability. Dedicated for MS Windows.
+This project, Ragnarök, is more than just a game; it's a journey designed for professional growth, 
+deeply interwoven with its narrative. My primary goal is to gain practical experience in game development, honing skills across various 
+disciplines by bringing this unique vision to life.
+The game's narrative is particularly significant as it's told entirely from the perspective of a character with a disability. 
+This approach aims to offer players a distinct and empathetic experience, challenging conventional viewpoints and fostering a deeper 
+understanding of diverse perspectives within the interactive medium.
+The project is being developed specifically for Microsoft Windows, leveraging the platform's capabilities to deliver an engaging and 
+accessible experience.
 
-## To run a project
+## Usage
 
 * pip install -r ./backend/requirements.txt
 * add python and ReactJS to PATH
