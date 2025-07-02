@@ -18,7 +18,7 @@ accessible experience.
 ## Usage
 
 1. `winget install Python.Python.3.10`(via cmd)
-2. `winget install OpenJS.NodeJS.19.1.10`(via cmd)
+2. `winget install OpenJS.NodeJS.19.1.0`(via cmd)
 3. add python and ReactJS to PATH
 4. double click on `install-require-libraries.bat`
 5. double click on `wwp.bat`
