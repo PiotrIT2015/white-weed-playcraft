@@ -27,7 +27,7 @@ accessible experience.
 Project is created with:
 * python version: 3.10
 * ReactJS version: 19.1.0
-...,but project also use:
 * MySQL
+* Apache
 
 ![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot.jpg?raw=true)
