@@ -15,6 +15,9 @@ understanding of diverse perspectives within the interactive medium.
 The project is being developed specifically for Microsoft Windows, leveraging the platform's capabilities to deliver an engaging and 
 accessible experience.
 
+Task:
+1. Complete classes Duolingo and Brainia by using my dedicated mobile app for people with listen disability[WW-P-sounds-help].
+
 ## Usage
 
 1. `winget install Python.Python.3.10`(via cmd)
