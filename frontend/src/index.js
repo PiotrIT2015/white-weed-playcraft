@@ -1,12 +1,16 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './styles/main.css';
 import App from './App';
 import { GameStateProvider } from './contexts/GameStateContext';
+import './index.css'; // Twój główny plik stylów
 
-const root = createRoot(document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+
 root.render(
-  <GameStateProvider>
-    <App />
-  </GameStateProvider>
+  <React.StrictMode>
+    <GameStateProvider>
+      <App />
+    </GameStateProvider>
+  </React.StrictMode>
 );

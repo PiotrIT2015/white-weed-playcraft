@@ -1,45 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import CharacterCreationScene from './scenes/CharacterCreationScene';
-import GameViewScene from './scenes/GameViewScene';
-import LoadingIndicator from './compontents/LoadingIndicator'; // Prosty komponent ładowania
-import ErrorDisplay from './compontents/ErrorDisplay'; // Prosty komponent błędu
-import { useGameState } from './contexts/GameStateContext';
+// Plik: frontend/src/App.js
+
+import React, { useState } from 'react';
+
+// 1. Zaimportuj obrazek - Webpack zwróci poprawną ścieżkę
+import backgroundImage from './assets/background.jpeg'; 
+
+import CharacterCreationScene from './scenes/CharacterCreationScene'; // Zaktualizuj ścieżkę, jeśli trzeba
+import GameScene from './scenes/GameScene'; // Zaktualizuj ścieżkę, jeśli trzeba
+import { GameStateProvider } from './contexts/GameStateContext';
+import './App.css';
 
 function App() {
-    const { gameState, isLoading, error } = useGameState();
-    // Stan określający, czy gra została rozpoczęta (postać stworzona lub załadowana)
-    const [isGameActive, setIsGameActive] = useState(false);
+    const [isGameStarted, setIsGameStarted] = useState(false);
 
-    // Efekt do ustawienia flagi `isGameActive` gdy `gameState` nie jest już null
-    useEffect(() => {
-        if (gameState) {
-            setIsGameActive(true);
-        }
-        // Można dodać logikę resetowania `isGameActive` np. przy wylogowaniu
-    }, [gameState]);
+    const handleGameStart = () => {
+        setIsGameStarted(true);
+    };
 
-     // Funkcja wywoływana po pomyślnym stworzeniu/załadowaniu gry
-     const handleGameStart = () => {
-         setIsGameActive(true);
-     };
+    // 2. Stwórz obiekt stylu, który zostanie użyty poniżej
+    const appStyle = {
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
+      backgroundPosition: 'center center',
+      minHeight: '100vh',
+      width: '100vw'
+    };
 
     return (
-        <div className="App">
-            <h1>Empatia: Symulator Codzienności</h1>
-            {isLoading && <LoadingIndicator />}
-            {error && <ErrorDisplay message={error} />}
-
-            {!isLoading && !error && (
-                 <>
-                    {!isGameActive ? (
-                        <CharacterCreationScene onGameStart={handleGameStart} />
+        <GameStateProvider>
+            {/* 3. Zastosuj styl do głównego kontenera aplikacji */}
+            <div className="App" style={appStyle}>
+                <header className="App-header">
+                    <h1>Gra RPG</h1>
+                </header>
+                <main>
+                    {isGameStarted ? (
+                        <GameScene />
                     ) : (
-                        <GameViewScene />
+                        <CharacterCreationScene onGameStart={handleGameStart} />
                     )}
-                 </>
-            )}
-            {/* Można dodać stopkę lub inne globalne elementy UI */}
-        </div>
+                </main>
+            </div>
+        </GameStateProvider>
     );
 }
 

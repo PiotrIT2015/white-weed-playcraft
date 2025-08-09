@@ -1,0 +1,54 @@
+.scene-container {
+    padding: 40px;
+    text-align: center;
+    background-color: #f0f8ff; /* Jasnoniebieskie tło */
+    height: 100vh;
+}
+
+.applications-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Odstęp między "drzwiami" */
+    margin-top: 50px;
+}
+
+.app-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.app-door {
+    width: 200px;
+    height: 300px;
+    border: 5px solid #8b4513; /* Brązowa "rama" */
+    border-radius: 10px;
+    background-color: #f4a460; /* Kolor drewna */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.app-door:hover {
+    transform: scale(1.05); /* Lekkie powiększenie po najechaniu */
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.app-door h2 {
+    margin: 0;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.app-door p {
+    color: white;
+    margin: 10px;
+    font-size: 0.9em;
+}
+
+.app-door.my-app {
+    background-color: #4682b4; /* Inny kolor dla Twojej aplikacji */
+}

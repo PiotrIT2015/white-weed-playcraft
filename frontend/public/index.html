@@ -1,42 +1,21 @@
-<html ng-app="cityGameApp">
-<head>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-  <script src="main.ts"></script>
-</head>
-<body ng-controller="GameController as vm">
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gra RPG</title>
+  </head>
+  <body>
+    <noscript>Musisz włączyć JavaScript, aby uruchomić tę aplikację.</noscript>
+    
+    <!-- React "zamontuje" całą Twoją aplikację w tym jednym elemencie. -->
+    <div id="root"></div>
 
-    <h1>Witaj w mieście!</h1>
-    <p>{{ vm.message }}</p>
-
-    <div class="game-area">
-        <!-- Elementy miasta -->
-        <div class="building" style="left: 50px; top: 50px; width: 150px; height: 100px;">Budynek 1</div>
-        <div class="building" style="left: 300px; top: 150px; width: 100px; height: 150px;">Budynek 2</div>
-        <div class="road" style="top: 260px; height: 80px;">Droga</div>
-
-        <!-- Przeszkoda i element dostępny -->
-        <div class="obstacle kerb" style="left: 180px; top: 300px;">Krawężnik</div>
-        <div class="accessible ramp" style="left: 250px; top: 300px;">Podjazd</div>
-
-        <!-- Postać gracza (na wózku) -->
-        <div
-            class="character"
-            ng-style="{'left': vm.character.x + 'px', 'top': vm.character.y + 'px'}"
-            aria-label="Postać na wózku inwalidzkim"
-            role="img">
-             ♿ <!-- Prosta reprezentacja ikoną emoji -->
-        </div>
-    </div>
-
-    <div class="controls">
-        <p>Sterowanie:</p>
-        <button ng-click="vm.move('up')">Góra</button>
-        <br>
-        <button ng-click="vm.move('left')">Lewo</button>
-        <button ng-click="vm.move('right')">Prawo</button>
-        <br>
-        <button ng-click="vm.move('down')">Dół</button>
-    </div>
-
-</body>
+    <!-- 
+      WAŻNE: Upewnij się, że nie ma tu żadnych tagów <script> wczytujących
+      pliki takie jak angular.js, angular.min.js itp. 
+      React sam doda odpowiednie skrypty podczas budowania aplikacji.
+    -->
+  </body>
 </html>
+

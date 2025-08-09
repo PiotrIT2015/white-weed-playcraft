@@ -1,38 +1,61 @@
+/* Plik: src/App.css */
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 20px;
+  color: white; /* Zmień kolor nagłówka na biały */
+  text-shadow: 2px 2px 4px #000000; /* Dodaj cień do tekstu dla lepszej czytelności */
+}
+
+/* Możesz dodać style bezpośrednio do kontenera tworzenia postaci */
+.character-creation {
+  background-color: rgba(0, 0, 0, 0.6); /* Czarne tło z 60% przezroczystości */
+  color: white; /* Zmień kolor tekstu w formularzu na biały */
+  padding: 20px;
+  border-radius: 10px; /* Zaokrąglone rogi */
+  max-width: 500px;
+  margin: 40px auto; /* Wyśrodkuj formularz */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5); /* Dodaj cień do pudełka */
+}
+
+/* Popraw wygląd inputów i przycisków na ciemnym tle */
+.character-creation input,
+.character-creation select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #555;
+  background-color: #333;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.character-creation label {
+  display: block;
+  text-align: left;
+  margin-left: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.character-creation button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #4CAF50; /* Zielony kolor przycisku */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.character-creation button:hover {
+  background-color: #45a049;
+}
+
+.character-creation button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
 }
