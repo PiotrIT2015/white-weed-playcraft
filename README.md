@@ -36,3 +36,5 @@ Project is created with:
 ![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-1.jpeg?raw=true)
 
 ![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-2.jpeg?raw=true)
+
+![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-3.jpeg?raw=true)
