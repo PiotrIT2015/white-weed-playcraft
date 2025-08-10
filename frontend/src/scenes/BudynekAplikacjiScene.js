@@ -34,7 +34,7 @@ const BudynekAplikacjiScene = () => {
         {/* Znalazłem aplikację Brainia w sklepach z aplikacjami, ale strona internetowa jest mniej oczywista. */}
         {/* Poniżej link do oficjalnej strony, z której można pobrać aplikację. */}
         <a 
-          href="https://www.brainiagames.com/" 
+          href="https://logiclike.com/pl/lamiglowki/dla-doroslych" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="app-link"
