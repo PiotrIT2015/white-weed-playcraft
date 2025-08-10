@@ -1,0 +1,139 @@
+
+/* Import czcionki, która pasuje do klimatu fantasy (opcjonalnie, ale polecane) */
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap');
+
+.creation-background {
+  /* Ustawienie obrazu tła */
+  background-image: url('../assets/background.jpeg');
+  
+  /* Właściwości tła, aby wypełniało cały ekran */
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* Użycie Flexbox do wyśrodkowania formularza */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Ustawienie domyślnej czcionki */
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-container {
+  /* Półprzezroczyste, czarne tło formularza */
+  background-color: rgba(0, 0, 0, 0.75);
+  
+  /* Wewnętrzne odstępy */
+  padding: 40px;
+  
+  /* Zaokrąglone rogi */
+  border-radius: 16px;
+  
+  /* Cień, aby formularz "odstawał" od tła */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  /* Ograniczenie szerokości na dużych ekranach */
+  width: 100%;
+  max-width: 500px;
+  
+  /* Kolor tekstu wewnątrz formularza */
+  color: #ffffff;
+  
+  /* Wyśrodkowanie tekstu dla nagłówków */
+  text-align: center;
+}
+
+/* Nagłówek główny "Gra RPG" */
+.form-container .main-title {
+  font-family: 'MedievalSharp', cursive; /* Specjalna czcionka dla tytułu */
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: #e0e0e0;
+}
+
+/* Nagłówek "Create Your Character" */
+.form-container .sub-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #ffffff;
+}
+
+/* Kontener dla pojedynczej etykiety i pola (dla lepszego pozycjonowania) */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left; /* Wyrównanie etykiet do lewej */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #cccccc;
+}
+
+/* Wspólne style dla pól input i select */
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: #1c1c1c;
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: #f0f0f0;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ważne, aby padding nie powiększał elementu */
+}
+
+/* Wygląd strzałki w dół w polu select */
+.form-select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5z%22%20fill%3D%22%23cccccc%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}
+
+/* Style przycisku */
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #28a745; /* Zielony kolor z obrazka */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.submit-button:hover {
+  background-color: #218838; /* Ciemniejszy zielony po najechaniu */
+}
+
+.submit-button:active {
+    transform: scale(0.98); /* Efekt wciśnięcia */
+}
+
+.submit-button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+/* Style dla komunikatów o błędach i sukcesie */
+.error-message {
+  color: #ff4d4d;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.success-message {
+    color: #28a745;
+    text-align: center;
+    margin-top: 15px;
+}

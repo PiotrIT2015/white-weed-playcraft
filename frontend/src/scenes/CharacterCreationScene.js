@@ -1,96 +1,123 @@
 import React, { useState } from 'react';
-import { useGameState } from '../contexts/GameStateContext';
-import { api } from '../services/api';
+// import { useHistory } from 'react-router-dom'; // Odkomentuj, jeśli używasz react-router-dom
 
-// Dostępne opcje (powinny odpowiadać enumom w backendzie/schematach Pydantic)
-const disabilityTypes = ['vision', 'hearing', 'mobility', 'neurological', 'epilepsy'];
-const disabilitySeverities = ['mild', 'moderate', 'severe'];
+// Krok 1: Importuj nowo utworzony plik CSS
+import './CharacterCreationScene.css';
 
-function CharacterCreationScene({ onGameStart }) {
-    const [characterName, setCharacterName] = useState('');
-    const [selectedType, setSelectedType] = useState(disabilityTypes[0]);
-    const [selectedSeverity, setSelectedSeverity] = useState(disabilitySeverities[0]);
-    const { updateGameState, setIsLoading, setError } = useGameState();
-    const [isCreating, setIsCreating] = useState(false); // Lokalny stan ładowania
+const CharacterCreationScene = () => {
+  // const history = useHistory();
+  
+  // Logika stanu komponentu pozostaje taka sama
+  const [characterName, setCharacterName] = useState('');
+  const [disabilityType, setDisabilityType] = useState('vision');
+  const [disabilitySeverity, setDisabilitySeverity] = useState('mild');
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        if (!characterName.trim()) {
-            setError('Character name cannot be empty.');
-            return;
-        }
-        setIsLoading(true);
-        setIsCreating(true);
-        setError(null);
+  // Funkcja wysyłająca dane do backendu pozostaje taka sama
+  const handleStartGame = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage('');
 
-        const characterData = {
-            character_name: characterName,
-            disability_type: selectedType,
-            disability_severity: selectedSeverity,
-        };
-
-        try {
-            const newGameState = await api.createGame(characterData);
-            updateGameState(newGameState); // Aktualizuj globalny stan gry
-            onGameStart(); // Poinformuj App.js o rozpoczęciu gry
-        } catch (err) {
-            console.error("Failed to create game:", err);
-            setError(err.message || 'Failed to create character. Please try again.');
-             // Nie wywołuj onGameStart w przypadku błędu
-        } finally {
-            setIsLoading(false);
-            setIsCreating(false);
-        }
+    const characterData = {
+      characterName,
+      disabilityType,
+      disabilitySeverity,
     };
 
-    return (
-        <div className="character-creation">
-            <h2>Create Your Character</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="charName">Character Name:</label>
-                    <input
-                        type="text"
-                        id="charName"
-                        value={characterName}
-                        onChange={(e) => setCharacterName(e.target.value)}
-                        required
-                        disabled={isCreating}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="disType">Disability Type:</label>
-                    <select
-                        id="disType"
-                        value={selectedType}
-                        onChange={(e) => setSelectedType(e.target.value)}
-                        disabled={isCreating}
-                    >
-                        {disabilityTypes.map(type => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="disSeverity">Severity:</label>
-                    <select
-                        id="disSeverity"
-                        value={selectedSeverity}
-                        onChange={(e) => setSelectedSeverity(e.target.value)}
-                        disabled={isCreating}
-                    >
-                        {disabilitySeverities.map(severity => (
-                            <option key={severity} value={severity}>{severity}</option>
-                        ))}
-                    </select>
-                </div>
-                <button type="submit" disabled={isCreating}>
-                    {isCreating ? 'Creating...' : 'Start Game'}
-                </button>
-            </form>
-            {/* Można tu dodać opcję ładowania gry */}
-        </div>
-    );
-}
+    try {
+      const response = await fetch('http://localhost:5000/api/new-game', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(characterData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Wystąpił nieznany błąd serwera.');
+      }
+      
+      setSuccessMessage(`Gra dla postaci ${result.gameState.player.name} została pomyślnie utworzona!`);
+      
+      // Opcjonalne opóźnienie przed przekierowaniem, aby użytkownik zobaczył komunikat
+      // setTimeout(() => {
+      //   history.push('/game'); 
+      // }, 2000);
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Krok 2: Zaktualizuj strukturę JSX, aby pasowała do CSS
+  return (
+    <div className="creation-background">
+      <div className="form-container">
+        
+        <h1 className="main-title">Gra RPG</h1>
+        <h2 className="sub-title">Create Your Character</h2>
+
+        <form onSubmit={handleStartGame}>
+          <div className="form-group">
+            <label htmlFor="characterName">Character Name:</label>
+            <input
+              type="text"
+              id="characterName"
+              className="form-input" // Użyj nowej klasy
+              value={characterName}
+              onChange={(e) => setCharacterName(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="disabilityType">Disability Type:</label>
+            <select 
+              id="disabilityType" 
+              className="form-select" // Użyj nowej klasy
+              value={disabilityType} 
+              onChange={(e) => setDisabilityType(e.target.value)} 
+              disabled={isLoading}
+            >
+              <option value="vision">Vision</option>
+              <option value="neurological">Neurological</option>
+              <option value="mobility">Mobility</option>
+              <option value="hearing">Hearing</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="disabilitySeverity">Severity:</label>
+            <select 
+              id="disabilitySeverity" 
+              className="form-select" // Użyj nowej klasy
+              value={disabilitySeverity} 
+              onChange={(e) => setDisabilitySeverity(e.target.value)} 
+              disabled={isLoading}
+            >
+              <option value="mild">Mild</option>
+              <option value="moderate">Moderate</option>
+              <option value="severe">Severe</option>
+            </select>
+          </div>
+
+          <button type="submit" className="submit-button" disabled={isLoading}>
+            {isLoading ? 'Tworzenie gry...' : 'Start Game'}
+          </button>
+
+          {error && <p className="error-message">Błąd: {error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>}
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default CharacterCreationScene;

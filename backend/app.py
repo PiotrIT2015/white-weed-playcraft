@@ -4,25 +4,24 @@
 from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 from sqlalchemy.orm import Session
-import os # Upewnij się, że 'os' jest zaimportowany
+import os 
 import json
+import traceback # Dodaj ten import do lepszego logowania błędów
 
 from engine.game_state_manager import game_manager
-from api.schemas import PlayerAction, DisabilityType, DisabilitySeverity, GameState
+# Upewnij się, że Enumy są poprawnie importowane, aby można było ich użyć
+from api.schemas import PlayerAction, DisabilityType, DisabilitySeverity, GameState 
 from database.database import SessionLocal, engine, Base
 from database import crud
 from database import models
 
-### ZMIANA 1: Poprawiamy konfigurację serwowania plików statycznych ###
-# Wskazujemy Flaskowi, gdzie znajdują się pliki JS/CSS, a nie cała aplikacja.
-# URL '/static' będzie teraz mapowany na folder 'frontend/build/static'.
-# To standardowa i bardziej niezawodna konfiguracja.
+# Konfiguracja serwowania plików statycznych pozostaje bez zmian
 BUILD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend', 'build'))
 app = Flask(__name__, static_folder=os.path.join(BUILD_FOLDER, 'static'), static_url_path='/static')
 
 CORS(app)
 
-# --- Funkcja pomocnicza do pobierania sesji DB ---
+# Funkcja pomocnicza do pobierania sesji DB pozostaje bez zmian
 def get_db():
     db = SessionLocal()
     try:
@@ -30,7 +29,7 @@ def get_db():
     finally:
         db.close()
 
-# --- Twoje funkcje inicjalizacyjne (pozostają bez zmian, są bardzo dobre!) ---
+# Funkcje inicjalizacyjne pozostają bez zmian
 def create_db_tables():
     print("Creating database tables if they don't exist...")
     Base.metadata.create_all(bind=engine)
@@ -60,14 +59,67 @@ def initialize_game_state():
     print("Game state initialization complete.")
 
 
-#
 # ==========================================================
-# ===                 ENDPOINTY API (BEZ ZMIAN)          ===
+# ===                 ENDPOINTY API                      ===
 # ==========================================================
-# Twoje endpointy API są dobrze napisane i nie wymagają zmian.
-# Wszystkie trasy zaczynające się od /api/ będą działać jak dotychczas.
-#
 
+# ==========================================================
+# ===  NOWY KOD: ENDPOINT DO TWORZENIA NOWEJ GRY         ===
+# ==========================================================
+@app.route('/api/new-game', methods=['POST'])
+def start_new_game():
+    """
+    Tworzy nową grę na podstawie danych z frontendu (imię, typ i stopień niepełnosprawności).
+    """
+    db = next(get_db())
+    data = request.get_json()
+
+    if not data or 'characterName' not in data or 'disabilityType' not in data or 'disabilitySeverity' not in data:
+        return jsonify({'error': 'Brakujące dane: characterName, disabilityType, disabilitySeverity'}), 400
+
+    try:
+        # Pobranie danych z żądania
+        name = data['characterName']
+        # Konwersja stringów z JSON na członków Enum z Twoich schematów
+        # Zakładamy, że wartości z frontendu (np. "vision") odpowiadają nazwom w Enum (np. VISION)
+        # metoda .upper() zapewni dopasowanie
+        disability_type_str = data['disabilityType'].upper()
+        severity_str = data['disabilitySeverity'].upper()
+        
+        dtype = DisabilityType[disability_type_str]
+        dseverity = DisabilitySeverity[severity_str]
+
+        # Użyj swojego menedżera gry do stworzenia nowej instancji gry
+        game_manager.create_new_game(name=name, dtype=dtype, dseverity=dseverity)
+        
+        # Pobierz nowo utworzony stan gry
+        current_state = game_manager.get_current_state()
+        if not current_state:
+            return jsonify({"error": "Nie udało się zainicjować stanu gry."}), 500
+            
+        # Opcjonalnie, ale zalecane: stwórz pierwszy zapis gry od razu
+        # To sprawi, że nowa gra będzie od razu widoczna w zapisach.
+        save_name = f"Początek gry - {current_state.player.name}"
+        db_save = crud.create_game_save(db, current_state, save_name)
+
+        return jsonify({
+            "success": True,
+            "message": f"Nowa gra rozpoczęta dla postaci {name}.",
+            "gameState": current_state.dict(),
+            "saveId": db_save.id # Zwróć ID zapisu, może się przydać
+        }), 201
+
+    except KeyError as e:
+        # Ten błąd wystąpi, jeśli wartość z frontendu nie pasuje do żadnego członka Enum
+        return jsonify({"error": f"Nieprawidłowa wartość dla niepełnosprawności lub jej stopnia: {e}"}), 400
+    except Exception as e:
+        traceback.print_exc()
+        db.rollback()
+        return jsonify({"error": f"Wewnętrzny błąd serwera podczas tworzenia gry: {e}"}), 500
+
+#
+# ... (reszta Twoich endpointów API, np. /api/gamestate, /api/action, pozostaje BEZ ZMIAN) ...
+#
 @app.route('/api/gamestate', methods=['GET'])
 def get_gamestate():
     current_state = game_manager.get_current_state()
@@ -93,7 +145,6 @@ def process_player_action():
         else:
             return jsonify({"error": "Failed to retrieve updated game state."}), 500
     except Exception as e:
-        import traceback
         traceback.print_exc()
         return jsonify({"error": f"Invalid action data or server error: {e}"}), 400
 
@@ -113,10 +164,11 @@ def save_game():
             "savedAt": db_save.saved_at.isoformat()
         }), 201
     except Exception as e:
-        import traceback
         traceback.print_exc()
         db.rollback()
         return jsonify({"error": f"Failed to save game: {e}"}), 500
+
+# ... (wszystkie pozostałe endpointy GET i DELETE /api/saves) ...
 
 @app.route('/api/saves', methods=['GET'])
 def get_all_game_saves():
@@ -152,7 +204,6 @@ def load_game_by_id(save_id: int):
         else:
             return jsonify({"error": "Failed to load game state from selected save."}), 500
     except Exception as e:
-        import traceback
         traceback.print_exc()
         return jsonify({"error": f"Error processing saved game data: {e}"}), 500
 
@@ -165,16 +216,10 @@ def delete_game_save(save_id: int):
     else:
         return jsonify({"success": False, "message": f"Failed to delete save game with ID {save_id}. Not found or error."}), 404
 
-
 # ==========================================================
 # ===      SERWOWANIE APLIKACJI FRONTENDOWEJ (REACT)     ===
 # ==========================================================
-
-### ZMIANA 2: Dodajemy uniwersalną trasę (catch-all) dla frontendu ###
-# Ta trasa musi znajdować się PO wszystkich trasach API.
-# Przechwyci ona wszystkie pozostałe żądania (np. '/', '/saves', '/game')
-# i zwróci główny plik `index.html`. React Router po stronie klienta
-# zajmie się resztą i wyświetli odpowiedni widok.
+# Ta sekcja pozostaje bez zmian
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_react_app(path):
@@ -187,8 +232,7 @@ def serve_react_app(path):
 # ==========================================================
 # ===           URUCHOMIENIE APLIKACJI                   ===
 # ==========================================================
-
-# Twoja logika inicjalizacyjna jest świetna - zachowujemy ją!
+# Ta sekcja pozostaje bez zmian
 def initialize_app(flask_app):
     """Scentralizowana funkcja do inicjalizacji aplikacji."""
     with flask_app.app_context():
@@ -197,7 +241,4 @@ def initialize_app(flask_app):
 
 if __name__ == '__main__':
     initialize_app(app)
-    
-    # Uruchomienie aplikacji pozostaje bez zmian.
-    # use_reloader=False jest tutaj kluczowe, aby uniknąć podwójnej inicjalizacji.
     app.run(port=5000, debug=True, use_reloader=False)
