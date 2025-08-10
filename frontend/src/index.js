@@ -1,16 +1,13 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import { GameStateProvider } from './contexts/GameStateContext';
-import './index.css'; // Twój główny plik stylów
+import ReactDOM from 'react-dom/client';
+import './index.css';
+// ZMIEŃ IMPORT z CharacterCreationScene na App
+import App from './App'; 
 
-const container = document.getElementById('root');
-const root = createRoot(container);
-
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GameStateProvider>
-      <App />
-    </GameStateProvider>
+    {/* ZMIEŃ RENDEROWANY KOMPONENT */}
+    <App />
   </React.StrictMode>
 );

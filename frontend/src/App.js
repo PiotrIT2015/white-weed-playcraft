@@ -1,23 +1,24 @@
 // Plik: frontend/src/App.js
 
 import React, { useState } from 'react';
+import backgroundImage from './assets/background.jpeg';
 
-// 1. Zaimportuj obrazek - Webpack zwróci poprawną ścieżkę
-import backgroundImage from './assets/background.jpeg'; 
+// Krok 1: Zmień importy - usuń GameScene, dodaj BudynekAplikacjiScene
+import CharacterCreationScene from './scenes/CharacterCreationScene';
+import BudynekAplikacjiScene from './scenes/BudynekAplikacjiScene'; // Nowy import
 
-import CharacterCreationScene from './scenes/CharacterCreationScene'; // Zaktualizuj ścieżkę, jeśli trzeba
-import GameScene from './scenes/GameScene'; // Zaktualizuj ścieżkę, jeśli trzeba
 import { GameStateProvider } from './contexts/GameStateContext';
 import './App.css';
 
 function App() {
     const [isGameStarted, setIsGameStarted] = useState(false);
 
+    // Ta funkcja jest przekazywana do CharacterCreationScene i wywoływana,
+    // gdy gra zostanie pomyślnie utworzona.
     const handleGameStart = () => {
         setIsGameStarted(true);
     };
 
-    // 2. Stwórz obiekt stylu, który zostanie użyty poniżej
     const appStyle = {
       backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',
@@ -29,17 +30,26 @@ function App() {
     };
 
     return (
+        // GameStateProvider może pozostać, jeśli inne części aplikacji (np. przyszłe sceny gry)
+        // będą z niego korzystać. Nie przeszkadza on w działaniu.
         <GameStateProvider>
-            {/* 3. Zastosuj styl do głównego kontenera aplikacji */}
             <div className="App" style={appStyle}>
-                <header className="App-header">
-                    <h1>Gra RPG</h1>
-                </header>
                 <main>
+                    {/* 
+                      Krok 2: Zaktualizuj logikę renderowania warunkowego.
+                      Teraz po rozpoczęciu gry ładujemy BudynekAplikacjiScene.
+                    */}
                     {isGameStarted ? (
-                        <GameScene />
+                        // Po rozpoczęciu gry pokazujemy budynek z aplikacjami
+                        <BudynekAplikacjiScene />
                     ) : (
-                        <CharacterCreationScene onGameStart={handleGameStart} />
+                        // Na początku pokazujemy ekran tworzenia postaci wraz z nagłówkiem
+                        <>
+                            <header className="App-header">
+                                <h1>Gra RPG</h1>
+                            </header>
+                            <CharacterCreationScene onGameStart={handleGameStart} />
+                        </>
                     )}
                 </main>
             </div>

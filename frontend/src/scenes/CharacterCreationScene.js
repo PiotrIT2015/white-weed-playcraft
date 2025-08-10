@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom'; // Odkomentuj, jeśli używasz react-router-dom
-
-// Krok 1: Importuj nowo utworzony plik CSS
 import './CharacterCreationScene.css';
 
-const CharacterCreationScene = () => {
-  // const history = useHistory();
-  
-  // Logika stanu komponentu pozostaje taka sama
+// Krok 1: Zmień sygnaturę komponentu, aby przyjmował props 'onGameStart'
+const CharacterCreationScene = ({ onGameStart }) => { 
   const [characterName, setCharacterName] = useState('');
   const [disabilityType, setDisabilityType] = useState('vision');
   const [disabilitySeverity, setDisabilitySeverity] = useState('mild');
@@ -15,7 +10,6 @@ const CharacterCreationScene = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Funkcja wysyłająca dane do backendu pozostaje taka sama
   const handleStartGame = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -41,21 +35,24 @@ const CharacterCreationScene = () => {
         throw new Error(result.error || 'Wystąpił nieznany błąd serwera.');
       }
       
-      setSuccessMessage(`Gra dla postaci ${result.gameState.player.name} została pomyślnie utworzona!`);
+      setSuccessMessage(`Gra dla postaci ${result.gameState.player.name} została pomyślnie utworzona! Rozpoczynamy...`);
       
-      // Opcjonalne opóźnienie przed przekierowaniem, aby użytkownik zobaczył komunikat
-      // setTimeout(() => {
-      //   history.push('/game'); 
-      // }, 2000);
+      // Krok 2: Wywołaj funkcję z komponentu nadrzędnego po krótkim opóźnieniu,
+      // aby użytkownik zdążył przeczytać komunikat.
+      setTimeout(() => {
+        onGameStart(); // <-- TO JEST KLUCZOWA ZMIANA!
+      }, 2000); // 2-sekundowe opóźnienie
 
     } catch (err) {
       setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+      // Musimy wyłączyć ładowanie również w przypadku błędu
+      setIsLoading(false); 
+    } 
+    // Usunięto 'finally', aby 'isLoading' nie zostało ustawione na 'false' od razu po sukcesie,
+    // co mogłoby pozwolić na ponowne kliknięcie przycisku przed zmianą sceny.
   };
 
-  // Krok 2: Zaktualizuj strukturę JSX, aby pasowała do CSS
+  // Reszta kodu JSX pozostaje bez zmian
   return (
     <div className="creation-background">
       <div className="form-container">
@@ -69,7 +66,7 @@ const CharacterCreationScene = () => {
             <input
               type="text"
               id="characterName"
-              className="form-input" // Użyj nowej klasy
+              className="form-input"
               value={characterName}
               onChange={(e) => setCharacterName(e.target.value)}
               required
@@ -81,7 +78,7 @@ const CharacterCreationScene = () => {
             <label htmlFor="disabilityType">Disability Type:</label>
             <select 
               id="disabilityType" 
-              className="form-select" // Użyj nowej klasy
+              className="form-select"
               value={disabilityType} 
               onChange={(e) => setDisabilityType(e.target.value)} 
               disabled={isLoading}
@@ -97,7 +94,7 @@ const CharacterCreationScene = () => {
             <label htmlFor="disabilitySeverity">Severity:</label>
             <select 
               id="disabilitySeverity" 
-              className="form-select" // Użyj nowej klasy
+              className="form-select"
               value={disabilitySeverity} 
               onChange={(e) => setDisabilitySeverity(e.target.value)} 
               disabled={isLoading}
