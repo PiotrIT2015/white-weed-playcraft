@@ -33,4 +33,6 @@ Project is created with:
 * MySQL
 * Apache
 
-![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot.jpg?raw=true)
+![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-1.jpeg?raw=true)
+
+![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-2.jpeg?raw=true)
