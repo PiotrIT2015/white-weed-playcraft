@@ -8,111 +8,93 @@ import DisabilityOverlay from '../compontents/DisabilityOverlay';
 import GameControls from '../compontents/GameControls'; // Komponent z przyciskami Save/Load
 
 function GameViewScene() {
+    // Twoje istniejące haki - wszystko tu jest w porządku
     const { gameState, updateGameState, setIsLoading, setError } = useGameState();
 
-    // --- Obsługa Akcji Gracza ---
+    // Twoja istniejąca funkcja do obsługi akcji - bez zmian
     const handlePlayerAction = useCallback(async (action) => {
-        if (!gameState) return; // Nie rób nic, jeśli stan gry nie jest załadowany
-
-        // setIsLoading(true); // Opcjonalnie: pokaż ładowanie podczas akcji
+        if (!gameState) return;
         setError(null);
-
         try {
             const newState = await api.postAction(action);
-            updateGameState(newState); // Aktualizuj stan po odpowiedzi backendu
+            updateGameState(newState);
         } catch (err) {
             console.error(`Failed to perform action ${action.action_type}:`, err);
             setError(err.message || 'Action failed.');
-        } finally {
-            // setIsLoading(false);
         }
-    }, [gameState, updateGameState, setError]); // Dodano setError do zależności
+    }, [gameState, updateGameState, setError]);
 
-    // --- Obsługa Ruchu Klawiaturą ---
+    // Twój istniejący useEffect do obsługi klawiatury - bez zmian
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (!gameState) return; // Nie reaguj, jeśli gra nieaktywna
-
+            if (!gameState) return;
             let dx = 0;
             let dy = 0;
-            const moveAmount = 5; // Jak daleko postać się porusza na krok
+            const moveAmount = 5;
 
             switch (event.key) {
-                case 'ArrowUp':
-                case 'w':
-                    dy = -moveAmount;
-                    break;
-                case 'ArrowDown':
-                case 's':
-                    dy = moveAmount;
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                    dx = -moveAmount;
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                    dx = moveAmount;
-                    break;
-                default:
-                    return; // Ignoruj inne klawisze
+                case 'ArrowUp': case 'w': dy = -moveAmount; break;
+                case 'ArrowDown': case 's': dy = moveAmount; break;
+                case 'ArrowLeft': case 'a': dx = -moveAmount; break;
+                case 'ArrowRight': case 'd': dx = moveAmount; break;
+                default: return;
             }
 
-             if (dx !== 0 || dy !== 0) {
+            if (dx !== 0 || dy !== 0) {
                 handlePlayerAction({ action_type: 'move', details: { dx, dy } });
-             }
+            }
         };
-
         window.addEventListener('keydown', handleKeyDown);
-
-        // Cleanup listener on component unmount
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [gameState, handlePlayerAction]); // Uruchom ponownie, jeśli gameState lub handlePlayerAction się zmieni
+    }, [gameState, handlePlayerAction]);
 
-    // --- Obsługa Interakcji (np. Kliknięcie na NPC) ---
+    // Twoja istniejąca funkcja do obsługi kliknięcia na NPC - bez zmian
     const handleNpcClick = (npcId) => {
         console.log(`Clicked on NPC: ${npcId}`);
         handlePlayerAction({ action_type: 'talk', target_id: npcId });
     };
 
-    // --- Renderowanie ---
+    // --- NOWA FUNKCJA ---
+    // Ta funkcja zostanie przekazana do GameControls.
+    // Gdy GameControls pomyślnie wczyta grę przez API, wywoła tę funkcję,
+    // przekazując nowy stan gry, który zaktualizuje całą aplikację.
+    const handleGameLoad = (loadedGameState) => {
+        console.log("Game state loaded in GameViewScene, updating context...");
+        updateGameState(loadedGameState);
+    };
+
+    // Renderowanie - bez zmian
     if (!gameState) {
-        // Jeśli stan jest null, może to oznaczać ładowanie lub błąd,
-        // obsłużone już w App.js, ale można dodać tu fallback
         return <div>Loading game data...</div>;
     }
 
-    // Znajdź aktualny dialog (pierwszy NPC, który coś mówi) - uproszczenie
     const currentDialogue = gameState.npcs.find(npc => npc.current_dialogue)?.current_dialogue;
 
-
+    // --- ZMIANA W SEKCJI RETURN ---
+    // Zaktualizowaliśmy wywołanie komponentu <GameControls />, aby przekazać mu
+    // funkcje, których potrzebuje do działania.
     return (
         <div className="game-view">
-            <div className="game-world" style={{ position: 'relative', width: '800px', height: '600px', border: '1px solid black', overflow: 'hidden', backgroundColor: '#eee' /* Proste tło */ }}>
-                {/* Renderuj Postać Gracza */}
+            <div className="game-world" style={{ position: 'relative', width: '800px', height: '600px', border: '1px solid black', overflow: 'hidden', backgroundColor: '#eee' }}>
                 <PlayerCharacter player={gameState.player} />
-
-                {/* Renderuj NPC */}
                 {gameState.npcs.map(npc => (
                     <NPCCharacter key={npc.id} npc={npc} onClick={() => handleNpcClick(npc.id)} />
                 ))}
-
-                {/* Nakładka Efektów Niepełnosprawności */}
                 <DisabilityOverlay effects={gameState.world_effects} />
             </div>
 
-            {/* Okno Dialogowe */}
             <DialogueBox text={currentDialogue} />
 
-            {/* Kontrolki Gry (Save/Load) */}
-            <GameControls />
+            {/* --- ZMODYFIKOWANY KOMPONENT --- */}
+            {/* Przekazujemy handlePlayerAction, aby przyciski ruchu w GameControls mogły wysyłać akcje. */}
+            {/* Przekazujemy onGameLoad, aby GameControls mógł poinformować tę scenę o wczytaniu nowego stanu gry. */}
+            <GameControls
+                handlePlayerAction={handlePlayerAction}
+                onGameLoad={handleGameLoad}
+            />
 
-            {/* Informacje Debugowe (opcjonalnie) */}
-            {/* <pre style={{ fontSize: '10px', maxHeight: '100px', overflowY: 'auto' }}>
-                {JSON.stringify(gameState, null, 2)}
-            </pre> */}
         </div>
     );
 }

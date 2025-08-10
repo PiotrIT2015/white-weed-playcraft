@@ -1,0 +1,87 @@
+/* Plik: GameViewScene.css */
+
+/* Główny kontener sceny gry */
+.game-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1a1a1a; /* Ciemne tło dla całej strony */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Kontener świata gry, w którym poruszają się postacie */
+.game-world {
+  position: relative; /* Kluczowe dla pozycjonowania postaci i nakładek */
+  width: 800px;
+  height: 600px;
+  background-color: #5b8c5a; /* Zielonkawe tło imitujące trawę */
+  border: 4px solid #383838;
+  border-radius: 8px;
+  overflow: hidden; /* Wszystko, co wyjdzie poza świat gry, jest ukrywane */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Style dla postaci gracza i NPC (zakładając, że mają te klasy) */
+/* Pozycjonowanie odbywa się przez inline style (left, top) w React */
+.player-character, .npc-character {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.1s linear; /* Płynne przejście ruchu */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Nakładka z efektami niepełnosprawności */
+.disability-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Pozwala na klikanie przez nakładkę */
+  z-index: 10; /* Upewnia się, że jest na wierzchu */
+}
+
+/* Okno dialogowe */
+.dialogue-box {
+  width: 800px;
+  min-height: 120px;
+  background-color: rgba(20, 20, 30, 0.9);
+  border: 4px solid #383838;
+  border-top: none; /* Łączy się wizualnie z oknem gry */
+  border-radius: 0 0 8px 8px;
+  padding: 20px;
+  color: #e0e0e0;
+  font-size: 18px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+/* Kontrolki gry (Save/Load) */
+.game-controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 5; /* Nad światem gry, ale pod nakładką */
+  display: flex;
+  gap: 10px;
+}
+
+.game-controls button {
+  padding: 8px 16px;
+  background-color: #4a4a5e;
+  color: white;
+  border: 2px solid #31313f;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.game-controls button:hover {
+  background-color: #61617a;
+}
