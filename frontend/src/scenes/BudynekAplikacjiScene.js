@@ -9,7 +9,7 @@ const BudynekAplikacjiScene = () => {
   // URL do Twojej aplikacji na GitHub. Zmień go na właściwy link.
   // Użyj linku do GitHub Pages (jeśli masz tam wersję demonstracyjną)
   // lub po prostu do repozytorium.
-  const myAppUrl = 'https://github.com/PiotrIT2015/WW-P-sounds-help';
+  const myAppUrl = 'https://pcamobileapp.azurewebsites.net/';
 
   return (
     <div className="scene-container">
