@@ -25,6 +25,16 @@ Task:
 3. add python and ReactJS to PATH
 4. double click on `install-require-libraries.bat`
 5. double click on `wwp[game-disabled-people].bat`
+
+...or:
+
+1. `docker pull piotrit2015/game-disabilities:1.0`
+2. `docker-compose up -d`
+3. `docker-compose down`
+
+Apache: `https://localhost:55001`
+phpMyAdmin/MySQL: `https://localhost:55002`
+
 	
 ## Technologies
 Project is created with:
@@ -33,14 +43,7 @@ Project is created with:
 * XAMPP[to run Apache and MySQL]
 * MS Windows
 
-...or:
 
-1. `docker pull piotrit2015/games-disabilities:1.0`
-2. `docker-compose up -d`
-3. `ocker-compose down`
-
-Apache: `https://localhost:55001`
-phpMyAdmin/MySQL: `https://localhost:55002`
 
 ![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-1.jpeg?raw=true)
 
