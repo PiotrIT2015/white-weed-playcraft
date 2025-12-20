@@ -24,14 +24,14 @@ Task:
 2. `winget install OpenJS.NodeJS.19.1.0`(via cmd)
 3. add python and ReactJS to PATH
 4. double click on `install-require-libraries.bat`
-5. double click on `wwp.bat`
+5. double click on `wwp[game-disabled-people].bat`
 	
 ## Technologies
 Project is created with:
 * python version: 3.10
 * ReactJS version: 19.1.0
-* MySQL
-* Apache
+* XAMPP[to run Apache and MySQL]
+* MS Windows
 
 ![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-1.jpeg?raw=true)
 
