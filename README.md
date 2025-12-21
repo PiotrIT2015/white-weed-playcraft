@@ -32,8 +32,12 @@ Task:
 2. `docker-compose up -d`
 3. `docker-compose down`
 
-Apache: `https://localhost:55001`
-phpMyAdmin/MySQL: `https://localhost:55002`
+
+| Co                    | URL                                                  |
+| --------------------- | ---------------------------------------------------- |
+| Aplikacja             | **[http://localhost:55001](http://localhost:55001)** |
+| phpMyAdmin            | **[http://localhost:55002](http://localhost:55002)** |
+| Backend direct (test) | [http://localhost:8080](http://localhost:8080)       |
 
 	
 ## Technologies
