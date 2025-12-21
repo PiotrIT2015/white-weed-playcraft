@@ -28,7 +28,7 @@ Task:
 
 ...or:
 
-1. `docker pull piotrit2015/game-disabilities:1.0`
+1. `docker pull piotrit2015/game-disabilities:2.0`
 2. `docker-compose up -d`
 3. `docker-compose down`
 
