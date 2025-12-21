@@ -2,9 +2,6 @@ version: "3.9"
 
 services:
 
-  # =========================
-  # MySQL
-  # =========================
   db:
     image: mysql:8.0
     container_name: mysql_db
@@ -22,12 +19,11 @@ services:
       timeout: 5s
       retries: 5
 
-  # =========================
-  # Aplikacja Python
-  # =========================
   app:
-    image: piotrit2015/wwp-office:1.0
-    container_name: os-ww-p
+    image: piotrit2015/game-disabilities:2.0
+    build:
+      context: ./frontend
+    container_name: frontend
     restart: unless-stopped
     environment:
       MYSQL_HOST: db
@@ -38,25 +34,8 @@ services:
       db:
         condition: service_healthy
     expose:
-      - "80"   # widoczne tylko wewnątrz sieci Dockera
+      - "80"
 
-  # =========================
-  # Apache (reverse proxy)
-  # =========================
-  apache:
-    image: httpd:2.4
-    container_name: apache_server
-    restart: unless-stopped
-    ports:
-      - "55001:80"
-    volumes:
-      - ./apache.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf:ro
-    depends_on:
-      - app
-
-  # =========================
-  # phpMyAdmin
-  # =========================
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: phpmyadmin_ui
@@ -70,8 +49,5 @@ services:
       db:
         condition: service_healthy
 
-# =========================
-# Wolumeny
-# =========================
 volumes:
   mysql_data:
