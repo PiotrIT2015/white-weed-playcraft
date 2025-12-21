@@ -30,7 +30,8 @@ Task:
 
 1. `docker pull piotrit2015/game-disabilities:2.0`
 2. `docker-compose up -d`
-3. `docker-compose down`
+3. `docker run -p 8080:80 piotrit2015/game-disabilities:2.0`
+4. `docker-compose down`
 
 
 | Co                    | URL                                                  |
