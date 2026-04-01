@@ -24,14 +24,31 @@ Task:
 2. `winget install OpenJS.NodeJS.19.1.0`(via cmd)
 3. add python and ReactJS to PATH
 4. double click on `install-require-libraries.bat`
-5. double click on `wwp.bat`
+5. double click on `wwp[game-disabled-people].bat`
+
+...or:
+
+1. `docker pull piotrit2015/game-disabilities:2.0`
+2. `docker-compose up -d`
+3. `docker run -p 8080:80 piotrit2015/game-disabilities:2.0`
+4. `docker-compose down`
+
+
+| Co                    | URL                                                  |
+| --------------------- | ---------------------------------------------------- |
+| Aplikacja             | **[http://localhost:55001](http://localhost:55001)** |
+| phpMyAdmin            | **[http://localhost:55002](http://localhost:55002)** |
+| Backend direct (test) | [http://localhost:8080](http://localhost:8080)       |
+
 	
 ## Technologies
 Project is created with:
 * python version: 3.10
 * ReactJS version: 19.1.0
-* MySQL
-* Apache
+* XAMPP[to run Apache and MySQL]
+* MS Windows
+
+
 
 ![image alt](https://github.com/PiotrIT2015/white-weed-playcraft/blob/master/screenshot-1.jpeg?raw=true)
 
