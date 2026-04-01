@@ -117,10 +117,10 @@ const CharacterCreationScene = ({ onGameStart, onGameLoad }) => {
           <div className="form-group">
             <label htmlFor="disabilityType">Disability Type:</label>
             <select id="disabilityType" className="form-select" value={disabilityType} onChange={(e) => setDisabilityType(e.target.value)} disabled={isLoading}>
-              <option value="Vision">Vision</option>
+              <option value="Epilepsy">Epilepsy</option>
               <option value="Neurological">Neurological</option>
               <option value="Mobility">Mobility</option>
-              <option value="Hearing">Hearing</option>
+              <option value="Vision">Vision</option>
             </select>
           </div>
           <div className="form-group">
